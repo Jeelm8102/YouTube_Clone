@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import ytLogo from '../assets/yt-logo.png'
 import ytLogoMobile from '../assets/yt-logo-mobile.png'
@@ -8,8 +9,9 @@ import { IoIosSearch } from 'react-icons/io'
 import { RiVideoAddLine } from 'react-icons/ri'
 import { FiBell } from 'react-icons/fi'
 import { CgClose } from 'react-icons/cg'
+
 import { Context } from '../context/contextApi'
-import { useLocation, useNavigate } from 'react-router-dom'
+import Loader from '../shared/loader'
 
 const Header = () => {
 
@@ -32,10 +34,18 @@ const Header = () => {
     }
 
     const {pathname} = useLocation();
-    const pagename = pathname?.split("/")?.filter(Boolean)?.[0]
+    const pageName = pathname?.split("/")?.filter(Boolean)?.[0]
 
     return (
-        <div>Header</div>
+        <div className='sticky top-0 z-10 flex flex-row items-center justify-between h-14 px-4 md:px-5 bg-white dark:bg-black'>
+            {loading && <Loader/>}
+
+            <div className="flex h-5 items-center">
+                {pageName !== 'video' && (
+                    <div className="flex md:hidden md:mr-6 cursor-pointer items-center justify-center h-10 w-10 rounded-full"></div>
+                )}
+            </div>
+        </div>
     )
 }
 
