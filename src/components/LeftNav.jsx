@@ -3,17 +3,22 @@ import React, { useContext } from 'react'
 import LeftNavMenuItem from "./LeftNavMenuItem"
 import { categories } from '../utils/constants'
 import { Context } from '../context/contextApi'
+import { useNavigate } from 'react-router-dom'
 
 const LeftNav = () => {
 
-  const { selectedCategory, setSelectedCategory, mobileMenu} = useContext(Context);
+  const { selectCategories, setSelectCategories, mobileMenu} = useContext(Context);
 
-  const clickHandler =(name, type) => {
+  const navigate = useNavigate();
+
+  const clickHandler = (name, type) => {
     switch (type) {
       case "category":
-        
-        break;
-    
+        return setSelectCategories(name)
+      case "home":
+        return setSelectCategories(name)
+      case "menu":
+        return false
       default:
         break;
     }
@@ -24,12 +29,15 @@ const LeftNav = () => {
       <div className="flex px-5 flex-col">
         {categories.map((item)=>{
           return(
-            <React.Fragment>
+            <React.Fragment key={item.name}>
               <LeftNavMenuItem
                 text={item.type === "home" ? "Home" : item.name}
                 icon={item.icon}
-                action={()=> {}}
-                className={`${selectedCategory === item.name ? "bg-white/[0.15]" : ""}`}
+                action={()=> {
+                  clickHandler(item.name, item.type)
+                  navigate("/")
+                }}
+                className={`${selectCategories === item.name ? "bg-white/[0.15]" : ""}`}
                 // we need to save this category into a particular state and instead of creating new state we will use "selectCategories" from contextApi.
               />
               {item.divider && (
