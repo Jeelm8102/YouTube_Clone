@@ -16,14 +16,24 @@ const VideoDetails = () => {
   const {setLoading} = useContext( Context )
 
   useEffect(()=>{
+    document.getElementById("root").classList.add("custom-h")
     fetchVideoDetails()
+    fetchRelatedVideos()
   },[id])
 
   const fetchVideoDetails =()=>{
     setLoading(true)
     fetchDataFromApi(`video/details/?id=${id}`).then((res)=>{
-      console.log(res)
+      console.log("Video",res)
       setVideo(res)
+      setLoading(false)
+    })
+  }
+  const fetchRelatedVideos =()=>{
+    setLoading(true)
+    fetchDataFromApi(`video/related-contents/?id=${id}`).then((res)=>{
+      console.log("Related",res)
+      setRelatedVideo(res)
       setLoading(false)
     })
   }
